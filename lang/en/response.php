@@ -49,5 +49,5 @@ return [
             'store' => ':item stored successfully.',
         ],
     ],
-    
+
 ];
