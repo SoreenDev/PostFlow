@@ -16,16 +16,16 @@ class AuthController extends BasicController
     public function register(RegisterRequest $request)
     {
         $result = $this->service->register($request->validated());
-        return $this->jsonResponse(...$result);
+        return response()->json(...$result);
     }
     public function login(LoginRequest $request)
     {
         $result = $this->service->login($request->validated());
-        return $this->jsonResponse(...$result);
+        return response()->json(...$result);
     }
     public function logout()
     {
         $result = $this->service->logout();
-        return $this->jsonResponse(...$result);
+        return response()->json(...$result);
     }
 }

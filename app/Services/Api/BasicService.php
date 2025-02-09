@@ -5,23 +5,56 @@ namespace App\Services\Api;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Cache;
 use ReflectionClass;
 use Throwable;
 
 abstract class BasicService
 {
+
+    /**
+     * Creates a standard API response.
+     *
+     * This method returns a structured JSON response, including success status, message, and data.
+     * If the data is paginated (`LengthAwarePaginator`), pagination details are also included.
+     *
+     * @param string|null $message The message to be included in the response (default: `null`).
+     * @param int $statusCode The HTTP status code (if invalid, defaults to `500`).
+     * @param mixed $data The response data (can be an array, object, or `LengthAwarePaginator`).
+     *
+     * @return array An array containing:
+     *  - `array`: Structured response with `success`, `message`, `data`, and optionally `pagination`.
+     *   - `int`: The HTTP status code.
+     */
     protected function createResponse (?string $message, int $statusCode, $data = []): array
     {
         $validStatusCodes = [
             200, 201, 202, 204, 400, 401, 403, 404, 422, 429, 500
         ];
+        $statusCode = in_array($statusCode, $validStatusCodes) ? $statusCode : 500 ;
 
-        return [
-            $message ?? trans('auth.non'),
-            in_array($statusCode, $validStatusCodes) ? $statusCode : 500,
-            $data
+        $result = [
+            'success' => $statusCode >= 200 && $statusCode < 300,
+            'message' => $message ?? trans('auth.non'),
         ];
+
+        if (isset($data->resource) && $data->resource instanceof LengthAwarePaginator) {
+            $result = array_merge($result, [
+                'data' => $data->items(),
+                'pagination' => [
+                    'current_page' => $data->currentPage(),
+                    'per_page' => $data->perPage(),
+                    'total' => $data->total(),
+                    'last_page' => $data->lastPage(),
+                    'next_page_url' => $data->nextPageUrl(),
+                    'prev_page_url' => $data->previousPageUrl(),
+                ]
+            ]);
+        } else {
+            $result['data'] = $data;
+        }
+        return [$result, $statusCode];
     }
 
     /**
