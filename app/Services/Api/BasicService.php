@@ -27,7 +27,7 @@ abstract class BasicService
      *  - `array`: Structured response with `success`, `message`, `data`, and optionally `pagination`.
      *   - `int`: The HTTP status code.
      */
-    protected function createResponse (?string $message, int $statusCode, $data = []): array
+    protected function createResponse (?string $message, int $statusCode,mixed $data = null): array
     {
         $validStatusCodes = [
             200, 201, 202, 204, 400, 404, 429, 500
@@ -52,7 +52,7 @@ abstract class BasicService
                 ]
             ]);
         } elseif (! is_null($data)) {
-            $result['data'] = $data ?? [];
+            $result['data'] = $data;
         }
         return [$result, $statusCode];
     }
