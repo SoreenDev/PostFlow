@@ -17,6 +17,9 @@ class PermissionSeeder extends Seeder
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
         foreach (PermissionEnum::cases() as $permission)
-            Permission::FirstOrCreate(['name' => $permission->value]);
+            Permission::FirstOrCreate(
+                ['name' => $permission->value, 'guard_name' => 'api'],
+                ['name' => $permission->value, 'guard_name' => 'api']
+            );
     }
 }

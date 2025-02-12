@@ -16,16 +16,24 @@ class RoleSeeder extends Seeder
     public function run(): void
     {
         $role = Role::firstOrCreate([
-            'name' => 'Manager'
+            'name' => 'Manager',
+            'guard_name' => 'api'
         ])->syncPermissions(PermissionEnum::cases());
 
-        User::create([
+        User::firstOrCreate([
+            'email' => 'soreendev@gmail.com',
+        ],[
             'email' => 'soreendev@gmail.com',
             'password' => 'Admin@1221',
+
         ])->assignRole($role);
 
         Role::firstOrCreate([
-            'name' => 'admin'
+            'name' => 'admin',
+            'guard_name' => 'api'
+        ],[
+            'name' => 'admin',
+            'guard_name' => 'api'
         ])->syncPermissions([
             PermissionEnum::UserIndex->value,
             PermissionEnum::UserShow->value,

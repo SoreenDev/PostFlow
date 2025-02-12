@@ -8,5 +8,6 @@ enum PermissionEnum : string
     case UserStore  = 'user.store' ;
     case UserUpdate = 'user.update' ;
     case UserDelete = 'user.delete' ;
+     case SetRole = 'set.role' ;
 
 }
