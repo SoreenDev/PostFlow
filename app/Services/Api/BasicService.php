@@ -30,13 +30,13 @@ abstract class BasicService
     protected function createResponse (?string $message, int $statusCode, $data = []): array
     {
         $validStatusCodes = [
-            200, 201, 202, 204, 400, 401, 403, 404, 422, 429, 500
+            200, 201, 202, 204, 400, 404, 429, 500
         ];
         $statusCode = in_array($statusCode, $validStatusCodes) ? $statusCode : 500 ;
 
         $result = [
             'success' => $statusCode >= 200 && $statusCode < 300,
-            'message' => $message ?? trans('auth.non'),
+            'message' => $message ?? trans('response.status.'.$statusCode),
         ];
 
         if (isset($data->resource) && $data->resource instanceof LengthAwarePaginator) {
@@ -51,8 +51,8 @@ abstract class BasicService
                     'prev_page_url' => $data->previousPageUrl(),
                 ]
             ]);
-        } else {
-            $result['data'] = $data;
+        } elseif (! is_null($data)) {
+            $result['data'] = $data ?? [];
         }
         return [$result, $statusCode];
     }

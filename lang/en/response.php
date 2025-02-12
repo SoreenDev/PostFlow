@@ -30,6 +30,17 @@ return [
         'deleted' => 'Failed to delete :item.',
     ],
 
+    'status' => [
+        200 => 'Request was successful.',
+        201 => 'Successfully created.',
+        202 => 'Request accepted for processing.',
+        204 => 'Request successful, but no content returned.',
+        400 => 'Bad request. Please check your input.',
+        404 => ':item not found.',
+        429 => 'Too many requests. Please slow down.',
+        500 => 'Internal server error. Please try again later.',
+    ],
+
     'file' => [
         'error' => [
             'upload' => 'Failed to upload :item.',
