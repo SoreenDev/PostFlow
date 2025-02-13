@@ -31,6 +31,7 @@ return [
         'forbidden' => 'Access denied.',
         'unauthenticated' => 'You need to log in first.',
         'token_invalid' => 'Invalid or expired token.',
+        'failed_login' => 'Failed to login. Please try again'
     ],
 
 

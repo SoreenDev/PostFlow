@@ -3,6 +3,7 @@
 namespace App\Services\Api;
 
 use App\Helpers\FileHelper;
+use App\Repositories\UserMetaRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -13,7 +14,8 @@ use Arr;
 class  AuthService extends BasicService
 {
     public function __construct(
-        public UserRepository $repository
+        public UserRepository $repository,
+        public UserMetaRepository $metaRepository
     )
     {}
 
@@ -25,7 +27,10 @@ class  AuthService extends BasicService
                 $data['profile_path'] = FileHelper::saveFile( $data['profile'] ?? null, 'Profiles' ,false);
 
                 $newUser = $this->repository->create(Arr::only($data, ['email', 'password']));
-                $newUser->meta()->create(Arr::except($data, ['email', 'password']));
+                $this->metaRepository->create([
+                    ... Arr::except($data, ['email', 'password']),
+                    'user_id' => $newUser->id,
+                ]);
 
                 return  JWTAuth::fromUser($newUser);
             });
@@ -45,8 +50,8 @@ class  AuthService extends BasicService
             }
             return $this->createResponse(trans('auth.success.login'), 200, [ 'token' => $token]);
         }catch (Throwable  $exception){
-            Log::error(trans('auth.error.login') . ' | Exception: ' . $exception->getMessage());
-            return $this->createResponse(trans('auth.error.login'), $exception->getCode());
+            Log::error(trans('auth.error.failed_login') . ' | Exception: ' . $exception->getMessage());
+            return $this->createResponse(trans('auth.error.failed_login'), $exception->getCode());
         }
     }
 
