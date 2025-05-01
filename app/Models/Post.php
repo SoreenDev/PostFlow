@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Post extends Model
 {
+    use HasFactory;
     protected $fillable = ['author_id', 'category_id', 'title', 'slug', 'content', 'image', 'gallery', 'status'];
 
     public function author(): BelongsTo
@@ -24,5 +27,13 @@ class Post extends Model
         return $this->belongsToMany(PostTag::class, 'post_tags', 'post_id', 'tag_id');
     }
 
+    public function likes(): MorphMany
+    {
+        return $this->morphMany(Like::class, 'likeable');
+    }
 
+    public function comments(): MorphMany
+    {
+        return $this->morphMany(Comment::class, 'commentable');
+    }
 }
