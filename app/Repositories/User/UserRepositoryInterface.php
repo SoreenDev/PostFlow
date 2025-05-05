@@ -10,5 +10,4 @@ Interface UserRepositoryInterface extends RepositoryInterface
 {
     public function getModel(): User;
 
-    public function setInformation(): UserInformation;
 }

@@ -3,7 +3,6 @@
 namespace App\Repositories\User;
 
 use App\Models\User;
-use App\Models\UserInformation;
 use App\Repositories\Repository;
 
 class UserRepository extends Repository implements UserRepositoryInterface
@@ -15,10 +14,5 @@ class UserRepository extends Repository implements UserRepositoryInterface
     public function getModel(): User
     {
         return parent::getModel();
-    }
-
-    public function setInformation(): UserInformation
-    {
-        // TODO: Implement setInformation() method.
     }
 }
