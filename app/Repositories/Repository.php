@@ -87,4 +87,10 @@ class Repository implements RepositoryInterface
         return [];
     }
 
+    public function getWithOptionalRelations(array $relations = []): Collection|array
+    {
+        return  QueryBuilder::for($this->model)
+            ->allowedIncludes($relations)
+            ->get();
+    }
 }
