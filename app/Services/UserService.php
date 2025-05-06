@@ -10,6 +10,6 @@ class UserService extends Service
         public UserRepository $userRepository
     )
     {
-        $this->relations = [];
+        $this->relations = ['information'];
     }
 }

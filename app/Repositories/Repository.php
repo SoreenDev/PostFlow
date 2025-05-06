@@ -87,14 +87,21 @@ class Repository implements RepositoryInterface
         return [];
     }
 
+    /**
+     * @throws \Exception
+     */
     public function getWithOptionalRelations(?array $relations, array $option): Collection|array
     {
-        return  QueryBuilder::for($this->model)
-            ->allowedIncludes($relations ?? [])
-            ->paginate(
-                perPage: $option['perPage'] ?? 10,
-                columns: $option ['columns'] ?? ['*'],
-                page: $option['page'] ?? 1
-            );
+        try {
+            return QueryBuilder::for($this->model)
+                ->allowedIncludes($relations ?? [])
+                ->paginate(
+                    perPage: $option['perPage'] ?? 10,
+                    columns: $option ['columns'] ?? ['*'],
+                    page: $option['page'] ?? 1
+                );
+        }catch (\Exception $exception){
+            throw new \Exception('The specified tables do not exist');
+        }
     }
 }

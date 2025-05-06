@@ -9,30 +9,30 @@ use Illuminate\Http\Request;
 
 abstract class Service
 {
-    protected Repository $repository;
-    protected array $relations ;
+    public Repository $repository;
+    public array $relations ;
 
-    protected function viewAny(array $options): Collection|array
+    public function viewAny(array $options): Collection|array
     {
          return $this->repository->getWithOptionalRelations($this->relations, $options);
     }
 
-    protected  function create(Request $request)
+    public function create(Request $request)
     {
-        return $this->repository->store($request->validate());
+        return $this->repository->store($request->validated());
     }
 
-    protected  function show(Model $model)
+    public function show(Model $model)
     {
         return $model->load($this->relations);
     }
 
-    protected  function update(Request $request, Model $model)
+    public function update(Request $request, Model $model)
     {
-        return $this->repository->update($model, $request->validate());
+        return $this->repository->update($model, $request->validated());
     }
 
-    protected  function destroy(Model $model)
+    public function destroy(Model $model)
     {
         return $model->delete();
     }
