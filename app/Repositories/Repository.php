@@ -87,10 +87,14 @@ class Repository implements RepositoryInterface
         return [];
     }
 
-    public function getWithOptionalRelations(array $relations = []): Collection|array
+    public function getWithOptionalRelations(?array $relations, array $option): Collection|array
     {
         return  QueryBuilder::for($this->model)
-            ->allowedIncludes($relations)
-            ->get();
+            ->allowedIncludes($relations ?? [])
+            ->paginate(
+                perPage: $option['perPage'] ?? 10,
+                columns: $option ['columns'] ?? ['*'],
+                page: $option['page'] ?? 1
+            );
     }
 }

@@ -15,7 +15,7 @@ interface RepositoryInterface
     public function paginate($limit = 15, array $payload = []);
 
     public function get(array $payload = []): Collection|array;
-    public function getWithOptionalRelations(array $relations = []): Collection|array;
+    public function getWithOptionalRelations(array $relations, array $option): Collection|array;
 
     public function store(array $payload);
 

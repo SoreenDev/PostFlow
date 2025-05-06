@@ -9,14 +9,12 @@ use Illuminate\Http\Request;
 
 abstract class Service
 {
-    abstract public function __construct();
-
+    protected Repository $repository;
     protected array $relations ;
-    protected Repository $repository ;
 
-    protected function viewAny(array $pagenaite): Collection|array
+    protected function viewAny(array $options): Collection|array
     {
-         return $this->repository->getWithOptionalRelations($this->relations);
+         return $this->repository->getWithOptionalRelations($this->relations, $options);
     }
 
     protected  function create(Request $request)
@@ -24,9 +22,18 @@ abstract class Service
         return $this->repository->store($request->validate());
     }
 
+    protected  function show(Model $model)
+    {
+        return $model->load($this->relations);
+    }
+
     protected  function update(Request $request, Model $model)
     {
         return $this->repository->update($model, $request->validate());
     }
 
+    protected  function destroy(Model $model)
+    {
+        return $model->delete();
+    }
 }
