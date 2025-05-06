@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,15 +12,8 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            UserSeeder::class,
-            PostCategorySeeder::class,
-            TagSeeder::class,
-            PostSeeder::class,
-        ]);
-        User::create([
-            'user_name' => 'soreendev',
-            'email' => 'soreendev@gmail.com',
-            'password' => 'soreendev',
+//            SetupFakeDataSeeder::class,
+            SetupAuthorizationSeeder::class
         ]);
     }
 }
