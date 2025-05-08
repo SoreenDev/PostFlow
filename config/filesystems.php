@@ -59,6 +59,11 @@ return [
             'throw' => false,
             'report' => false,
         ],
+        'images' => [
+            'driver' => 'local',
+            'root'   => storage_path('images'),
+            'url'    => env('APP_URL').'/api/v1/images',
+        ],
 
     ],
 
