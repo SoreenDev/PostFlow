@@ -21,6 +21,10 @@ class UserResource extends JsonResource
             'information' => $this->whenLoaded(
                 'information',
                 fn() => UserInformationResource::make($this->resource->information)
+            ),
+            'role' => $this->whenLoaded(
+                'roles',
+                fn() => RoleResource::collection($this->resource->roles)
             )
         ];
     }
