@@ -90,10 +90,10 @@ class Repository implements RepositoryInterface
     /**
      * @throws \Exception
      */
-    public function getWithOptionalRelations(?array $relations, array $option): Collection|array
+    public function getWithOptionalRelations(?array $relations, array $option)
     {
         try {
-            return QueryBuilder::for($this->model)
+            return QueryBuilder::for($this->model->newQuery())
                 ->allowedIncludes($relations ?? [])
                 ->paginate(
                     perPage: $option['perPage'] ?? 10,

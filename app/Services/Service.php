@@ -12,7 +12,12 @@ abstract class Service
     public Repository $repository;
     public array $relations ;
 
-    public function viewAny(array $options): Collection|array
+    public function __construct(Repository $repository)
+    {
+        $this->repository = $repository;
+    }
+
+    public function viewAny(array $options)
     {
          return $this->repository->getWithOptionalRelations($this->relations, $options);
     }
