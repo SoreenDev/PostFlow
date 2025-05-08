@@ -17,18 +17,18 @@ class AuthController extends Controller
     public function register(AuthRegisterRequest $request)
     {
         $result = $this->authService->ApiRegister($request);
-        return $this->Response(...$result,  message: trans('auth.success.register'));
+        return $this->response(...$result,  message: trans('auth.success.register'));
     }
 
     public function login(AuthLoginRequest $request)
     {
         $result = $this->authService->ApiLogin($request);
-        return $this->Response(...$result);
+        return $this->response(...$result);
     }
 
     public function logout()
     {
         $result = $this->authService->ApiLogout();
-        return $this->Response(...$result,  message: trans('auth.success.logout'));
+        return $this->response(...$result,  message: trans('auth.success.logout'));
     }
 }

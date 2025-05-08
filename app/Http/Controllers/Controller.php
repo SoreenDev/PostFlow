@@ -6,7 +6,7 @@ use Illuminate\Http\JsonResponse;
 
 abstract class Controller
 {
-    function Response($data = [], $message = "", $statusCode = 200, bool $success = true ): JsonResponse
+    function response($data = [], $message = "", $statusCode = 200, bool $success = true ): JsonResponse
     {
         return response()->json(
             compact('success', 'data', 'message'),
@@ -14,7 +14,7 @@ abstract class Controller
         );
     }
 
-    function ResponseWithAdditional($data = [], string $message = null, $status = 200, $additional = []): JsonResponse
+    function responseWithAdditional($data = [], string $message = null, $status = 200, $additional = []): JsonResponse
     {
         return $data->additional(array_merge([
             'success' => true,
