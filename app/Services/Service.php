@@ -27,7 +27,7 @@ abstract class Service
         return $this->repository->store($request->validated());
     }
 
-    public function show(Model $model)
+    public function view(Model $model)
     {
         return $model->load($this->relations);
     }
