@@ -179,6 +179,7 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'column-not-found' => 'The following columns are invalid : '
     ],
 
     /*

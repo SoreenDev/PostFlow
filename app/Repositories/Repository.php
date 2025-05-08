@@ -6,6 +6,7 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Validation\ValidationException;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class Repository implements RepositoryInterface
@@ -92,16 +93,22 @@ class Repository implements RepositoryInterface
      */
     public function getWithOptionalRelations(?array $relations, array $option)
     {
-        try {
-            return QueryBuilder::for($this->model->newQuery())
-                ->allowedIncludes($relations ?? [])
-                ->paginate(
-                    perPage: $option['perPage'] ?? 10,
-                    columns: $option ['columns'] ?? ['*'],
-                    page: $option['page'] ?? 1
-                );
-        }catch (\Exception $exception){
-            throw new \Exception('The specified tables do not exist');
+        if (isset($option['columns']) && $option['columns'] !== ['*']) {
+
+            $invalidColumns = array_diff($option['columns'],$this->model->getFillable());
+            if (!empty($invalidColumns)) {
+                throw ValidationException::withMessages([
+                    trans('validation.custom.column-not-found')
+                    . implode(', ', $invalidColumns)
+                ]);
+            }
         }
+        return QueryBuilder::for($this->model->newQuery())
+            ->allowedIncludes($relations ?? [])
+            ->paginate(
+                perPage: $option['perPage'] ?? 10,
+                columns: $option ['columns'] ?? ['*'],
+                page: $option['page'] ?? 1
+            );
     }
 }
