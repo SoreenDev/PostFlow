@@ -37,7 +37,7 @@ abstract class Service
         return $this->repository->update($model, $request->validated());
     }
 
-    public function delete(Model $model): ?bool
+    public function delete(Model $model)
     {
         return $model->delete();
     }
