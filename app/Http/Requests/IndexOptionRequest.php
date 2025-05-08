@@ -15,7 +15,10 @@ class IndexOptionRequest extends FormRequest
     public function rules(): array
     {
         return [
-
+            'perPage' => ['nullable', 'nullable', 'max:300'],
+            'page' => ['nullable', 'numeric'],
+            'columns' => ['nullable', 'array'],
+            'columns.*' => ['string', 'max:40', 'distinct']
         ];
     }
 }
