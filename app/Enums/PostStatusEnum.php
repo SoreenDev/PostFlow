@@ -2,11 +2,11 @@
 
 namespace App\Enums;
 
-enum PostStatusEnum: string implements Enum
+enum PostStatusEnum: int implements Enum
 {
-    case Draft = 'draft';
-    case Published = 'published';
-    case Archived = 'archived';
+    case Draft = 0;
+    case Published = 1;
+    case Archived = 2;
 
     public function title(): string
     {

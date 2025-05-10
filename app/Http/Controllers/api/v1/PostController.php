@@ -25,7 +25,7 @@ class PostController extends Controller
         $result = $this->Service->viewAny($request->validated());
         return $this->ResponseWithAdditional(
             $result->toResourceCollection(),
-            message: trans('response.success.index', ['items' => trans('post') ])
+            message: trans('response.success.index', ['items' => trans('posts') ])
         );
     }
 
@@ -81,6 +81,16 @@ class PostController extends Controller
         $this->Service->delete($post);
         return $this->response(
             message: trans('response.success.deleted', ['item' => trans('post')])
+        );
+    }
+
+    public function dashboardIndex(IndexOptionRequest $request)
+    {
+        Gate::authorize('dashboard-index',Post::class);
+        $result = $this->Service->dashboardViewAny($request->validated());
+        return $this->ResponseWithAdditional(
+            $result->toResourceCollection(),
+            message: trans('response.success.index', ['items' => trans('posts') ])
         );
     }
 }

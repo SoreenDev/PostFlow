@@ -23,9 +23,7 @@ class PostFactory extends Factory
             'title' => $this->faker->sentence(),
             'slug' => $this->faker->slug(),
             'content' => $this->faker->paragraph(),
-            'image' => $this->faker->imageUrl(),
-//            'gallery' ,
-            'status' => $this->faker->randomElement(['published', 'draft', 'archived']),
+            'status' => $this->faker->randomElement([0, 1, 2]),
         ];
     }
 }

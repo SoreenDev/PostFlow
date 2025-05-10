@@ -54,4 +54,9 @@ class PostPolicy
             default => false
         };
     }
+
+    public function dashboardIndex(User $user): bool
+    {
+        return $user->hasPermissionTo(PermissionEnum::PostViewAny);
+    }
 }

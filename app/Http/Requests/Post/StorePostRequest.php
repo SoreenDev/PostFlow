@@ -2,27 +2,38 @@
 
 namespace App\Http\Requests\Post;
 
+use App\Enums\PermissionEnum;
+use App\Enums\PostStatusEnum;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Enum;
 
 class StorePostRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
-     */
-    public function authorize(): bool
-    {
-        return false;
-    }
-
-    /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
         return [
-            //
+            'category_id' => ['required', 'numeric', 'exists:post_categories,id'],
+            'title' => ['required', 'string', 'min:8', 'max:255', 'unique:posts,title'],
+            'content' => ['required', 'string'],
+            'status' => [
+                Rule::when(
+                    auth()->user()->hasPermissionTo(PermissionEnum::Post),
+                    ['integer', new Enum(PostStatusEnum::class)],
+                    ['prohibited']
+                )
+            ],
+            'tags' => ['nullable', 'array', 'distinct'],
+            'tags.*' => ['required', 'numeric', 'exists:tags,id'],
+            'main_image' => ['required', 'file', 'mimes:jpg,png', 'max:10240'],
+            'gallery' => ['nullable','array'],
+            'gallery.*' =>  ['required', 'file', 'mimes:jpg,png', 'max:10240']
         ];
     }
 }

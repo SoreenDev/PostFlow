@@ -2,11 +2,12 @@
 
 use App\Http\Controllers\api\v1\AuthController;
 use App\Http\Controllers\api\v1\PostCategoryController;
+use App\Http\Controllers\api\v1\PostController;
 use App\Http\Controllers\api\v1\TagController;
 use App\Http\Controllers\api\v1\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('v1')->group(function () {
+Route::prefix('v1')->group(callback: function () {
     Route::prefix('/auth')->controller(AuthController::class)->group(function () {
        Route::post('/register', 'register');
        Route::post('/login', 'login');
@@ -18,4 +19,12 @@ Route::prefix('v1')->group(function () {
         ->middleware('auth:sanctum');
     Route::apiResource('/tags', TagController::class)
         ->middleware('auth:sanctum');
+    Route::prefix('/posts')->controller(PostController::class)->group(function () {
+        Route::get('/dashboard', 'dashboardIndex')->middleware('auth:sanctum');
+        Route::get('/', 'index');
+        Route::post('/', 'store')->middleware('auth:sanctum');
+        Route::get('/{post}', 'show')->middleware('auth:sanctum');
+        Route::put('/{post}', 'update')->middleware('auth:sanctum');
+        Route::delete('/{post}', 'destroy')->middleware('auth:sanctum');
+    });
 });
