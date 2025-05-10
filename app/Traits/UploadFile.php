@@ -2,7 +2,9 @@
 
 namespace App\Traits;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Request;
 
 trait UploadFile
 {
@@ -12,9 +14,11 @@ trait UploadFile
         $model->addMediaFromRequest($key)->toMediaCollection($collection_name);
     }
 
-    public function uploadToMany(Model $model, $keys, string $collection_name): void
+    public function uploadToMany(Model $model, $key, string $collection_name): void
     {
         $model->clearMediaCollection($collection_name);
-        $model->addMultipleMediaFromRequest($keys)->toMediaCollection($collection_name);
+        foreach (Request::file($key) as $file){
+            $model->addMedia($file)->toMediaCollection($collection_name);
+        }
     }
 }
