@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Enums\PostStatusEnum;
 use App\Models\Post;
 use App\Repositories\Post\PostRepositoryInterface;
+use App\Traits\HasCommentOrLike;
 use App\Traits\UploadFile;
 use DB;
 use Illuminate\Database\Eloquent\Model;
@@ -14,7 +15,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class PostService extends Service
 {
-    use UploadFile;
+    use UploadFile, HasCommentOrLike;
     public function __construct(PostRepositoryInterface $repository)
     {
         parent::__construct($repository);

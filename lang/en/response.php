@@ -61,4 +61,10 @@ return [
         ],
     ],
 
+    'operations' => [
+        'completed' => 'Operation completed successfully.',
+        'succeeded' => 'Operation succeeded.',
+        'processed' => 'Operation processed successfully.'
+    ],
+
 ];

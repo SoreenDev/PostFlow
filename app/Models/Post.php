@@ -14,14 +14,23 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 class Post extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
-
+    protected $fillable = ['author_id', 'category_id', 'title', 'slug', 'content', 'status'];
     protected function casts(): array
     {
         return [
             'status' => PostStatusEnum::class
         ];
     }
-    protected $fillable = ['author_id', 'category_id', 'title', 'slug', 'content', 'status'];
+    protected $appends = ['likes_count', 'comments_count'];
+
+    public function getLikesCountAttribute()
+    {
+        return $this->likes()->count();
+    }
+    public function getCommentsCountAttribute()
+    {
+        return $this->comments()->count();
+    }
 
     public function registerMediaCollections(): void
     {

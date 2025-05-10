@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api\v1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\IndexOptionRequest;
+use App\Http\Requests\Post\StoreCommentRequest;
 use App\Http\Requests\Post\StorePostRequest;
 use App\Http\Requests\Post\UpdatePostRequest;
 use App\Models\Post;
@@ -91,6 +92,24 @@ class PostController extends Controller
         return $this->ResponseWithAdditional(
             $result->toResourceCollection(),
             message: trans('response.success.index', ['items' => trans('posts') ])
+        );
+    }
+
+    public function like(Post $post)
+    {
+        $this->Service->like($post);
+
+        return $this->Response(
+            message: trans('response.operations.succeeded')
+        );
+    }
+
+    public function comment(Post $post, StoreCommentRequest $request)
+    {
+        $this->Service->comment($post, $request);
+
+        return $this->response(
+            message: trans('response.success.show', ['item' => trans('comment')])
         );
     }
 }
