@@ -34,16 +34,23 @@ class PostResource extends JsonResource
             'slug' => $this->resource->slug,
             'content' => $this->resource->content,
             'status' => $this->resource->status->title(),
-            'likes_count' => $this->resource->likes_count,
-            'likes' => $this->whenLoaded(
-                'likes',
-                fn() => $this->resource->likes->toResourceCollection(),
+            'main_image' => $this->getFirstMediaUrl('main'),
+            'images' => $this->getMedia('other')
+                ->map(fn($media) => [
+                    'url' => $media->getUrl(),
+                ]
             ),
+            'likes_count' => $this->resource->likes_count,
             'comments_count' => $this->resource->comments_count,
             'comments' => $this->whenLoaded(
                 'comments',
                 fn() => $this->resource->comments->toResourceCollection(),
-            )
+            ),
+            'likes' => $this->whenLoaded(
+                'likes',
+                fn() => $this->resource->likes->toResourceCollection(),
+            ),
+
         ];
     }
 }

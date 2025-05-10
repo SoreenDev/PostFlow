@@ -18,6 +18,7 @@ class UserResource extends JsonResource
             'id' => $this->resource->id,
             'user_name' => $this->resource->user_name,
             'email' => $this->resource->email,
+            'profile' => $this->getFirstMediaUrl('profile'),
             'information' => $this->whenLoaded(
                 'information',
                 fn() => UserInformationResource::make($this->resource->information)
