@@ -58,4 +58,12 @@ class AuthService
         Auth::user()->currentAccessToken()->delete();
         return ['success' => true];
     }
+
+    public function register(AuthRegisterRequest $request): array
+    {
+        return DB::transaction(function () use ($request) {
+            $user = $this->userRepository->store($request->validated());
+            Auth::login($user);
+        });
+    }
 }
