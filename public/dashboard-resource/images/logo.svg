@@ -3,7 +3,7 @@
         .text {
         fill: white;
         font-family: 'Arial Black', sans-serif;
-        font-size: 66px;
+        font-size: 350%;
         letter-spacing: 1px;
         }
         .bg {
@@ -11,5 +11,5 @@
         }
     </style>
     <rect class="bg" width="100%" height="100%" rx="10"/>
-    <text class="text" x="50%" y="50%" dominant-baseline="middle" text-anchor="middle">PostFlow</text>
+    <text class="text" x="50%" y="50%" dominant-baseline="middle" text-anchor="middle"> PostFlow</text>
 </svg>
