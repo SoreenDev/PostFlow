@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Auth;
 
+use App\Http\Requests\Auth\AuthRegisterRequest;
 use Livewire\Component;
 
 class Register extends Component
@@ -10,6 +11,17 @@ class Register extends Component
     public string $email;
     public string $password;
     public string $password_confirmation;
+
+    protected function validateRequest(string $requestClass)
+    {
+        $request = new $requestClass();
+        return $this->validate($request->rules(), $request->messages());
+    }
+    public function register()
+    {
+        $validated = $this->validateRequest(AuthRegisterRequest::class);
+    }
+
 
     public function render()
     {

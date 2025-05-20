@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="{{ asset('dashboard-resource/css/style.css') }}">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="{{ asset('dashboard-resource/images/favicon.png') }}" />
+    @vite('resources/css/app.css')
     @fluxAppearance
     @livewireStyles
 
@@ -28,10 +29,8 @@
     <div class="container-fluid page-body-wrapper full-page-wrapper">
         <div class="row w-100 m-0">
             <div class="content-wrapper full-page-wrapper d-flex align-items-center auth login-bg">
-                <flux:main container>
-                    <flux:button variant="danger">Danger</flux:button>
-                </flux:main>
-
+             {{ $slot }}
+            </div>
             <!-- content-wrapper ends -->
         </div>
         <!-- row ends -->
