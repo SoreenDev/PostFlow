@@ -1,5 +1,6 @@
+window.errors = window.errors || {};
+
 export default function inputValidator(rules, fieldName, messages = {}) {
-    console.log(fieldName)
     return {
         value: '',
         error: '',
@@ -12,26 +13,36 @@ export default function inputValidator(rules, fieldName, messages = {}) {
                 const key = name + (param ? `:${param}` : '');
 
                 if (name === 'required' && (!this.value || this.value.trim() === '')) {
-                    this.error = messages[key] || `فیلد ${this.label(fieldName)} الزامی است.`;
+                    this.setError(messages[key] || `فیلد ${this.label(fieldName)} الزامی است.`);
                     return;
                 }
 
                 if (name === 'email' && !/^\S+@\S+\.\S+$/.test(this.value)) {
-                    this.error = messages[key] || `فرمت ${this.label(fieldName)} نامعتبر است.`;
+                    this.setError(messages[key] || `فرمت ${this.label(fieldName)} نامعتبر است.`);
                     return;
                 }
 
                 if (name === 'min' && this.value.length < parseInt(param)) {
-                    this.error = messages[key] || `${this.label(fieldName)} باید حداقل ${param} کاراکتر باشد.`;
+                    this.setError(messages[key] || `${this.label(fieldName)} باید حداقل ${param} کاراکتر باشد.`);
                     return;
                 }
 
                 if (name === 'max' && this.value.length > parseInt(param)) {
-                    this.error = messages[key] || `${this.label(fieldName)} نباید بیشتر از ${param} کاراکتر باشد.`;
+                    this.setError(messages[key] || `${this.label(fieldName)} نباید بیشتر از ${param} کاراکتر باشد.`);
                     return;
                 }
             }
+
+            // حذف ارور در صورت صحت
+            delete window.errors[fieldName];
+            this.error = '';
         },
+
+        setError(message) {
+            this.error = message;
+            window.errors[fieldName] = message;
+        },
+
         label(field) {
             return {
                 email: 'ایمیل',
