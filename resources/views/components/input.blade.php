@@ -12,6 +12,8 @@
     'errorClass' => 'ring-red-500',
     'errorMessageClass' => 'mt-3 text-red-500 text-sm',
     'errorPrefix' => '* ',
+    'rules' => '',
+
 ])
 
 @php
@@ -20,7 +22,7 @@
     $labelClass = $labelClass ?? "block text-sm font-medium text-gray-700 mb-1"
 @endphp
 
-<div>
+<div x-data="inputValidator('{{ $rules }}', '{{ $name }}')">
     @if($label)
         <label for="{{ $name }}" class="{{ $labelClass }}">
             {{ $label }}
@@ -35,6 +37,7 @@
                 class="{{ $classes }}"
                 @disabled($disabled)
                 @readonly($readonly)
+                @blur="validate"
             >
                 {{ $displayValue }}
             </textarea>
@@ -42,18 +45,22 @@
             <input
                 type="{{ $type }}"
                 wire:model="{{ $name }}"
+                x-model="value"
                 value="{{ $displayValue }}"
                 placeholder="{{ $placeholder }}"
                 class="{{ $classes }}"
                 @disabled($disabled)
                 @readonly($readonly)
+                @blur="validate"
+                @input="error = ''"
             >
         @endif
     </div>
 
-    @error($name)
     <div class="{{ $errorMessageClass }}">
+        <p x-show="error" x-text="error" class="{{ $errorMessageClass }}"></p>
+    @error($name)
         {{ $errorPrefix.$message }}
-    </div>
     @enderror
+    </div>
 </div>

@@ -9,6 +9,7 @@
                     label="User Name"
                     labelClass=""
                     base-class="form-control p_input"
+                    rules="required"
                 />
             </div>
             <div class="form-group">
@@ -19,6 +20,7 @@
                         label="Email"
                         labelClass=""
                         base-class="form-control p_input"
+                        rules="required"
                     />
                 </div>
             </div>

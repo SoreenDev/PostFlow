@@ -20,6 +20,7 @@
     <!-- End layout styles -->
     <link rel="shortcut icon" href="{{ asset('dashboard-resource/images/favicon.png') }}" />
     @vite('resources/css/app.css')
+    @vite('resources/js/app.js')
     @fluxAppearance
     @livewireStyles
 
