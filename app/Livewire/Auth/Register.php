@@ -7,6 +7,12 @@ use Livewire\Component;
 
 class Register extends Component
 {
+    public array $front_validation = [
+        'user_name' => 'required',
+        'email' => 'required',
+        'password' => 'required',
+        'password_confirmation' => 'required'
+    ];
     public string $user_name;
     public string $email;
     public string $password;

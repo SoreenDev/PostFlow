@@ -1,10 +1,10 @@
 window.errors = window.errors || {};
 
-export default function inputValidator(rules, fieldName, messages = {}) {
+export default function inputValidator() {
     return {
         value: '',
         error: '',
-        validate() {
+        validate([fieldName, rules]) {
             this.error = '';
             const ruleList = rules.split('|');
 
@@ -13,32 +13,30 @@ export default function inputValidator(rules, fieldName, messages = {}) {
                 const key = name + (param ? `:${param}` : '');
 
                 if (name === 'required' && (!this.value || this.value.trim() === '')) {
-                    this.setError(messages[key] || `فیلد ${this.label(fieldName)} الزامی است.`);
+                    this.setError(`فیلد ${this.label(fieldName)} الزامی است.`, fieldName);
                     return;
                 }
 
                 if (name === 'email' && !/^\S+@\S+\.\S+$/.test(this.value)) {
-                    this.setError(messages[key] || `فرمت ${this.label(fieldName)} نامعتبر است.`);
+                    this.setError(`فرمت ${this.label(fieldName)} نامعتبر است.`, fieldName);
                     return;
                 }
 
                 if (name === 'min' && this.value.length < parseInt(param)) {
-                    this.setError(messages[key] || `${this.label(fieldName)} باید حداقل ${param} کاراکتر باشد.`);
+                    this.setError(`${this.label(fieldName)} باید حداقل ${param} کاراکتر باشد.`, fieldName);
                     return;
                 }
 
                 if (name === 'max' && this.value.length > parseInt(param)) {
-                    this.setError(messages[key] || `${this.label(fieldName)} نباید بیشتر از ${param} کاراکتر باشد.`);
+                    this.setError(`${this.label(fieldName)} نباید بیشتر از ${param} کاراکتر باشد.`, fieldName);
                     return;
                 }
             }
-
-            // حذف ارور در صورت صحت
             delete window.errors[fieldName];
             this.error = '';
         },
 
-        setError(message) {
+        setError(fieldName, message) {
             this.error = message;
             window.errors[fieldName] = message;
         },

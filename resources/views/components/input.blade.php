@@ -22,7 +22,7 @@
     $labelClass = $labelClass ?? "block text-sm font-medium text-gray-700 mb-1"
 @endphp
 
-<div x-data="inputValidator('{{ $rules }}', '{{ $name }}')">
+<div>
     @if($label)
         <label for="{{ $name }}" class="{{ $labelClass }}">
             {{ $label }}
@@ -45,20 +45,19 @@
             <input
                 type="{{ $type }}"
                 wire:model="{{ $name }}"
-                x-model="value"
                 value="{{ $displayValue }}"
                 placeholder="{{ $placeholder }}"
                 class="{{ $classes }}"
                 @disabled($disabled)
                 @readonly($readonly)
-                @blur="validate"
+                @blur="$dispatch('validate-field', { field: '{{ $name }}', rules: '{{ $rules }}', value: $event.target.value || '' })"
                 @input="error = ''"
             >
         @endif
     </div>
 
     <div class="{{ $errorMessageClass }}">
-        <p x-show="error" x-text="error" class="{{ $errorMessageClass }}"></p>
+        <p x-show="window.errors['{{ $name }}']" x-text="window.errors['{{ $name }}']" class="{{ $errorMessageClass }}"></p>
     @error($name)
         {{ $errorPrefix.$message }}
     @enderror
