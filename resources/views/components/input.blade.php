@@ -48,16 +48,17 @@
                 value="{{ $displayValue }}"
                 placeholder="{{ $placeholder }}"
                 class="{{ $classes }}"
+                id="{{ $name }}"
                 @disabled($disabled)
                 @readonly($readonly)
                 @blur="$dispatch('validate-field', { field: '{{ $name }}', rules: '{{ $rules }}', value: $event.target.value || '' })"
-                @input="error = ''"
+                @input="errors['{{ $name }}'] = ''"
             >
         @endif
     </div>
 
     <div class="{{ $errorMessageClass }}">
-        <p x-show="window.errors['{{ $name }}']" x-text="window.errors['{{ $name }}']" class="{{ $errorMessageClass }}"></p>
+        <p x-show="errors['{{ $name }}']" x-text="errors['{{ $name }}']" class="{{ $errorMessageClass }}"></p>
     @error($name)
         {{ $errorPrefix.$message }}
     @enderror

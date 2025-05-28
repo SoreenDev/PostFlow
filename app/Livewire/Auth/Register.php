@@ -26,6 +26,7 @@ class Register extends Component
     public function register()
     {
         $validated = $this->validateRequest(AuthRegisterRequest::class);
+        dd($validated);
     }
 
 

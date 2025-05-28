@@ -3,9 +3,7 @@ window.errors = window.errors || {};
 export default function inputValidator() {
     return {
         value: '',
-        error: '',
         validate([fieldName, rules]) {
-            this.error = '';
             const ruleList = rules.split('|');
 
             for (let rule of ruleList) {
@@ -33,11 +31,9 @@ export default function inputValidator() {
                 }
             }
             delete window.errors[fieldName];
-            this.error = '';
         },
 
-        setError(fieldName, message) {
-            this.error = message;
+        setError(message, fieldName) {
             window.errors[fieldName] = message;
         },
 
