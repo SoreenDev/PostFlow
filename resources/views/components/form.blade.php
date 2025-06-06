@@ -1,12 +1,12 @@
 @props([
-    'action' => '',
+    'action',
     'validation'=> null
 ])
 <form
     x-data="formHandler({
         action: @js($action),
         validation: @js($validation),
-        serverErrors: @js($errors)
+        wire: $wire
     })"
     @submit.prevent="validateAndSubmit()"
 >

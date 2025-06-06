@@ -7,7 +7,7 @@
 <button
     type="submit"
     class=" {{ $class }} "
-{{--    :disabled="hasErrors "--}}
+    :disabled="hasErrors"
 >
     {{ $text }}
 </button>

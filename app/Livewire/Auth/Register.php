@@ -8,10 +8,10 @@ use Livewire\Component;
 class Register extends Component
 {
     public array $front_validation = [
-        'user_name' => 'required',
-        'email' => 'required',
-        'password' => 'required',
-        'password_confirmation' => 'required'
+        'user_name' => 'required|min:4|max:255',
+        'email' => 'required|email|max:255',
+        'password' => 'required|min:8|max:255:',
+        'password_confirmation' => 'required|min:8|max:255|confirmation:password'
     ];
     public string $user_name;
     public string $email;
@@ -32,6 +32,9 @@ class Register extends Component
 
     public function render()
     {
+        if ($this->getErrorBag()->any()) {
+          $this->dispatch('has_errors', $this->getErrorBag()->toArray());
+        }
         return view('livewire.auth.register')
             ->layout('layout.auth_layout', ['title' => 'Register']);
 

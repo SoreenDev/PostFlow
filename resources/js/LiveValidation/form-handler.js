@@ -1,17 +1,19 @@
-export default function formHandler({ action, validation, serverErrors }) {
+export default function formHandler({ action, validation, wire }) {
     return {
+        action,
         errors: window.errors || {},
         validation,
-        serverErrors,
+        wire,
 
         get hasErrors() {
-            return Object.keys(this.errors || {}).length > 0 || Object.keys(this.serverErrors || {}).length > 0;
+            return Object.keys(this.errors || {}).length > 0;
         },
 
         init() {
             window.errors = this.errors;
             this.validator = inputValidator();
             this.listenToValidation();
+            this.listenToSubmit();
         },
 
         listenToValidation() {
@@ -23,16 +25,26 @@ export default function formHandler({ action, validation, serverErrors }) {
             });
         },
 
-        validateAndSubmit() {
+        listenToSubmit() {
+             document.addEventListener('has_errors', (error) => {
+                 Object.entries(error.detail[0]).forEach(([key, messages]) => {
+                     this.errors[key] = this.errors[key]
+                         ? [...new Set([...this.errors[key], ...messages])]
+                         : messages;
+                 });
+                 window.errors = { ...this.errors };
+             });
+        },
 
+        validateAndSubmit() {
             Object.entries(this.validation).forEach(([field, rules]) => {
                 this.validator.value = document.getElementById(field)?.value || '';
                 this.validator.validate([field, rules]);
             });
             this.errors = { ...window.errors };
 
-            if (!this.hasErrors) {
-                @this.register();
+            if (! this.hasErrors) {
+                this.wire[this.action]();
             }
         }
     };

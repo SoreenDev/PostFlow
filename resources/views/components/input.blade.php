@@ -32,12 +32,18 @@
     <div class="relative">
         @if($type === 'textarea')
             <textarea
+                type="{{ $type }}"
                 wire:model="{{ $name }}"
-                id="{{ $name }}"
+                value="{{ $displayValue }}"
                 class="{{ $classes }}"
+                id="{{ $name }}"
                 @disabled($disabled)
                 @readonly($readonly)
-                @blur="validate"
+                @blur="$dispatch(
+                    'validate-field',
+                     { field: '{{ $name }}', rules: '{{ $rules }}', value: $event.target.value || '' }
+                 )"
+                @input="delete this.errors['{{ $name }}']"
             >
                 {{ $displayValue }}
             </textarea>
@@ -51,16 +57,16 @@
                 id="{{ $name }}"
                 @disabled($disabled)
                 @readonly($readonly)
-                @blur="$dispatch('validate-field', { field: '{{ $name }}', rules: '{{ $rules }}', value: $event.target.value || '' })"
-                @input="errors['{{ $name }}'] = ''"
+                @blur="$dispatch(
+                    'validate-field',
+                     { field: '{{ $name }}', rules: '{{ $rules }}', value: $event.target.value || '' }
+                 )"
+                @input="delete this.errors['{{ $name }}']"
             >
         @endif
     </div>
 
     <div class="{{ $errorMessageClass }}">
         <p x-show="errors['{{ $name }}']" x-text="errors['{{ $name }}']" class="{{ $errorMessageClass }}"></p>
-    @error($name)
-        {{ $errorPrefix.$message }}
-    @enderror
     </div>
 </div>
