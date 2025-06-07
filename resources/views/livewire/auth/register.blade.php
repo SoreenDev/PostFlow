@@ -4,7 +4,7 @@
         <x-form
             action="register"
             x-init="init"
-            :validation="$front_validation"
+            :validation="$liveValidationRules"
         >
             <div class="form-group">
                 <x-input
@@ -13,7 +13,7 @@
                     label="User Name"
                     labelClass=""
                     base-class="form-control p_input"
-                    :rules="$front_validation['user_name']"
+                    :rules="$liveValidationRules['user_name']"
                 />
             </div>
             <div class="form-group">
@@ -23,7 +23,7 @@
                     label="Email"
                     labelClass=""
                     base-class="form-control p_input"
-                    :rules="$front_validation['email']"
+                    :rules="$liveValidationRules['email']"
                 />
             </div>
             <div class="form-group">
@@ -33,7 +33,7 @@
                     label="Password"
                     labelClass=""
                     base-class="form-control p_input"
-                    :rules="$front_validation['password']"
+                    :rules="$liveValidationRules['password']"
                 />
             </div>
             <div class="form-group">
@@ -43,7 +43,7 @@
                     label="Password Confirmation"
                     labelClass=""
                     base-class="form-control p_input"
-                    :rules="$front_validation['password_confirmation']"
+                    :rules="$liveValidationRules['password_confirmation']"
                 />
             </div>
             <div class="text-center mt-4">
@@ -52,7 +52,7 @@
                     text="Register"
                 />
             </div>
-            <p class="sign-up text-center">Already have an Account?<a href="#"> Sign Up</a></p>
+            <p class="sign-up text-center">Already have an Account?<a href="{{  route('login') }}"> Login</a></p>
         </x-form>
     </div>
 </div>

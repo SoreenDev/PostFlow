@@ -3,29 +3,28 @@
 namespace App\Livewire\Auth;
 
 use App\Http\Requests\Auth\AuthRegisterRequest;
+use App\Traits\LivewireValidationHandler;
 use Livewire\Component;
 
 class Register extends Component
 {
-    public array $front_validation = [
-        'user_name' => 'required|min:4|max:255',
-        'email' => 'required|email|max:255',
-        'password' => 'required|min:8|max:255:',
-        'password_confirmation' => 'required|min:8|max:255|confirmation:password'
-    ];
+    use LivewireValidationHandler;
+
+    public array $liveValidationRules ;
     public string $user_name;
     public string $email;
     public string $password;
     public string $password_confirmation;
 
-    protected function validateRequest(string $requestClass)
+    public function mount()
     {
-        $request = new $requestClass();
-        return $this->validate($request->rules(), $request->messages());
+        $this->setupValidation(AuthRegisterRequest::class);
+        $this->liveValidationRules = $this->validRules;
+        $this->liveValidationRules['password_confirmation'] = 'required|min:8|max:255|confirmation:password';
     }
     public function register()
     {
-        $validated = $this->validateRequest(AuthRegisterRequest::class);
+        $validated = $this->validate(...$this->ruleAndMessage);
         dd($validated);
     }
 

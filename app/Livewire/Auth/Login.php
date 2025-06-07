@@ -13,7 +13,7 @@ class Login extends Component
     public string $email;
     public string $password;
 
-    public function mount($name = 'Default Name')
+    public function mount()
     {
         $this->setupValidation(AuthLoginRequest::class);
         $this->liveValidationRules = $this->validRules;
@@ -21,7 +21,7 @@ class Login extends Component
 
     public function login()
     {
-            $validated = $this->validate(...$this->massageAndRoles);
+        $validated = $this->validate(...$this->ruleAndMessage);
         dd($validated);
     }
 
