@@ -30,7 +30,8 @@
     <div class="container-fluid page-body-wrapper full-page-wrapper">
         <div class="row w-100 m-0">
             <div class="content-wrapper full-page-wrapper d-flex align-items-center auth login-bg">
-             {{ $slot }}
+                <x-toast />
+                {{ $slot }}
             </div>
             <!-- content-wrapper ends -->
         </div>

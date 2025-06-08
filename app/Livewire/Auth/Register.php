@@ -25,6 +25,10 @@ class Register extends Component
     public function register()
     {
         $validated = $this->validate(...$this->ruleAndMessage);
+        $this->dispatch('toast', [
+            'message' => 'I\'m never gonna toast you!',
+            'type' => 'success' // 'error', 'info', 'warning'
+        ]);
         dd($validated);
     }
 
